@@ -17,5 +17,5 @@ bitstream.bin
 $ git clone https://github.com/webfpga/cli
 $ cp cli/flash.py .
 $ pip install pyusb
-$ python flash.py
+$ python flash.py bitstream.bin
 ```
