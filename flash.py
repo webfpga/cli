@@ -6,7 +6,6 @@ import sys
 import textwrap
 
 class Progress:
-
         def __init__(self):
                 pass
 
@@ -176,16 +175,15 @@ def main():
         if len(sys.argv) == 2:
                 filename = sys.argv[1]
         else:
-                filename = None
+                filename = "bitstream.bin"
 
         flasher = Flasher()
         flasher.iterate()
         flasher.prepare()
 
-        if filename is not None:
-                with open(filename, "rb") as f:
-                          flasher.erase()
-                          flasher.flash(f)
+        with open(filename, "rb") as f:
+                  flasher.erase()
+                  flasher.flash(f)
 
 if __name__== "__main__":
           main()
