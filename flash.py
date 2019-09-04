@@ -3,6 +3,7 @@ import usb.core
 import usb.util
 import re
 import sys
+import textwrap
 
 class Progress:
 
@@ -66,7 +67,9 @@ class Flasher:
                 self.dev = usb.core.find(idVendor=0x16D0, idProduct=0x0e6c)
                 if self.dev is None:
                         raise ValueError('Device not found')
-                self.progress = ProgressBar()
+                # Removed progress bar for debugging.
+                # Will be added back in the future....
+                #self.progress = ProgressBar()
                 self.monitor = True
 
         def watch(self, it=True):
@@ -92,6 +95,7 @@ class Flasher:
                 written = self.dev.ctrl_transfer(0x40, 250, commandcode, 0, data)
                 if self.monitor:
                         print(command + ": ", end='');
+                return written
                 
         def expect(self, expected):        
                 ret = self.dev.ctrl_transfer(0xC0, 249, 0x70, 0x81, 128)
@@ -147,13 +151,25 @@ class Flasher:
                                 l = l & 0x7F
                         body = f.read(l-1);
                         assert len(body) == l-1, "Short block!"
+
+                        # print each tx block
+                        for line in textwrap.wrap(body.hex(), 40):
+                            print(line)
+
+                        # transmit the block
                         combined = bytearray(header)
                         combined.extend(body)
-                        self.issue("AMWD", combined)
+                        res = self.issue("AMWD", combined)
                         self.expect(".*")
                         offset = offset + l
-                        self.progress.advance(offset)
-                self.progress.advance(None)
+
+                        # print the device's response
+                        print("RESPONSE =>", res, "\n");
+
+                        # Removed progress bar for debugging.
+                        # Will be added back in the future....
+                        #self.progress.advance(offset)
+                #self.progress.advance(None)
                 print("Flashing complete")
 
 def main():
