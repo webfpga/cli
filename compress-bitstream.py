@@ -10,11 +10,24 @@ if len(argv) != 3 or "--help" in argv or "-h" in argv:
 input_filename  = argv[1]
 output_filename = argv[2]
 
+# Print banner
 print("----------------------------------------")
 print("WebFPGA Bitstream Compression Utility\n")
 print("Input: ",  input_filename)
 print("Output:", output_filename)
 print("----------------------------------------\n")
 
+# Open input file and load into array
+print("Reading input bitstream...")
 f = open(input_filename, "rb")
-f.read()
+input = f.read()
+print(f"Read {len(input)} bytes.\n");
+
+# Substitute header
+# TODO
+
+# Compress blocks
+# TODO
+
+# Save file
+# TODO
