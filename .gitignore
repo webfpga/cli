@@ -107,5 +107,6 @@ venv.bak/
 # End of Python .gitignore Template
 ########################################
 
+# FPGA bitstreams
 *.bin
 *.cbin
