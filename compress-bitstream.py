@@ -8,7 +8,7 @@ if len(argv) != 2 or "--help" in argv or "-h" in argv:
     print("WebFPGA Bitstream Compression Utility")
     exit(1)
 input_filename  = argv[1]
-output_filename = argv[2] + ".cbin"
+output_filename = argv[1] + ".cbin"
 
 # Print banner
 print("----------------------------------------")
