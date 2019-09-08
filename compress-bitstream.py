@@ -21,7 +21,7 @@ print("----------------------------------------\n")
 # Open input file and load into array
 print("Reading input bitstream...")
 f = open(input_filename, "rb")
-bitstream = f.read()
+bitstream = bytearray(f.read())
 print(f"Read {len(bitstream)} bytes.\n")
 
 # Initialize the output array to hold the compressed bitstream
@@ -35,12 +35,15 @@ for index in range(len(bitstream)):
     # 0xFF marks the end of the input bitstream's header
     print(f"Byte {index}: {bitstream[index]}")
     if bitstream[index] == 0xFF and index != 0:
+        index += 1
         break
 print(f"Found data segment start at byte {index}.");
 data_segment = bitstream[index:]
 
 # Compress blocks
 # TODO
+for x in data_segment:
+    continue
 
 # Save file
 # TODO
