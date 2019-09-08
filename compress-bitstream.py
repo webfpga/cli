@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 from sys import argv
 
 # Parse arguments
@@ -20,13 +21,23 @@ print("----------------------------------------\n")
 # Open input file and load into array
 print("Reading input bitstream...")
 f = open(input_filename, "rb")
-input  = f.read()
-output = []
-print(f"Read {len(input)} bytes.\n")
+bitstream = f.read()
+print(f"Read {len(bitstream)} bytes.\n")
 
-# Substitute header
-for x in input:
-    print(x)
+# Initialize the output array to hold the compressed bitstream
+# (0xFF signifies the start/end of the header)
+output = [0xFF, 0x12, 0x34, 0xFF] # (placeholder header for now...)
+
+# Locate the start of actual data in the input bitstream
+assert bitstream[0] == 0xFF, "first byte of input bitstream != 0xFF"
+print("Searching start of input bitstream data segment...")
+for index in range(len(bitstream)):
+    # 0xFF marks the end of the input bitstream's header
+    print(f"Byte {index}: {bitstream[index]}")
+    if bitstream[index] == 0xFF and index != 0:
+        break
+print(f"Found data segment start at byte {index}.");
+data_segment = bitstream[index:]
 
 # Compress blocks
 # TODO
