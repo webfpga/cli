@@ -3,12 +3,12 @@
 from sys import argv
 
 # Parse arguments
-if len(argv) != 3 or "--help" in argv or "-h" in argv:
-    print(f"usage: {argv[0]} <input.bin> <output.cbin>")
+if len(argv) != 2 or "--help" in argv or "-h" in argv:
+    print(f"usage: {argv[0]} <input.bin>")
     print("WebFPGA Bitstream Compression Utility")
     exit(1)
 input_filename  = argv[1]
-output_filename = argv[2]
+output_filename = argv[2] + ".cbin"
 
 # Print banner
 print("----------------------------------------")
@@ -20,11 +20,13 @@ print("----------------------------------------\n")
 # Open input file and load into array
 print("Reading input bitstream...")
 f = open(input_filename, "rb")
-input = f.read()
-print(f"Read {len(input)} bytes.\n");
+input  = f.read()
+output = []
+print(f"Read {len(input)} bytes.\n")
 
 # Substitute header
-# TODO
+for x in input:
+    print(x)
 
 # Compress blocks
 # TODO
