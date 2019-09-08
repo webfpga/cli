@@ -10,5 +10,11 @@ if len(argv) != 3 or "--help" in argv or "-h" in argv:
 input_filename  = argv[1]
 output_filename = argv[2]
 
-print("Input Bitstream:", input_filename)
-print("Input Bitstream:", output_filename)
+print("----------------------------------------")
+print("WebFPGA Bitstream Compression Utility\n")
+print("Input: ",  input_filename)
+print("Output:", output_filename)
+print("----------------------------------------\n")
+
+f = open(input_filename, "rb")
+f.read()
