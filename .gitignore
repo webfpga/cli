@@ -102,3 +102,11 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+########################################
+# End of Python .gitignore Template
+########################################
+
+# FPGA bitstreams
+*.bin
+*.cbin
