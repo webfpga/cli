@@ -9,7 +9,8 @@ if len(argv) != 2 or "--help" in argv or "-h" in argv:
     print("WebFPGA Bitstream Compression Utility")
     exit(1)
 input_filename  = argv[1]
-output_filename = argv[1] + ".cbin"
+#output_filename = argv[1] + ".cbin"
+output_filename = "output.cbin"
 
 # Print banner
 print("----------------------------------------")
@@ -37,7 +38,7 @@ for index in range(len(bitstream)):
     if bitstream[index] == 0xFF and index != 0:
         index += 1
         break
-print(f"Found data segment start at byte {index}.");
+print(f"Found data segment start at byte {index}.\n");
 data_segment = bitstream[index:]
 
 # Compress blocks
@@ -46,4 +47,6 @@ for x in data_segment:
     continue
 
 # Save file
-# TODO
+print(f"Saving compressed bitstream ({output_filename})...")
+with open(output_filename, "wb") as f:
+    f.write(bytes(output))
