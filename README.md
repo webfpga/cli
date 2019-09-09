@@ -3,6 +3,9 @@
 Python port of the WebFPGA CLI. As of right now, only bitstream
 flashing is supported.
 
+## Update
+Bitstream downloading and compression is nearly supported! (9/8/2019)
+
 ## Example
 Use the Node.js utility to synthesize and create a bitstream. Then, use the
 Python utility to flash the device.
