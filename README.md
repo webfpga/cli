@@ -1,7 +1,8 @@
 # webfpga/cli
 [![PyPI version](https://badge.fury.io/py/webfpga.svg)](https://badge.fury.io/py/webfpga)
 
-**Python migration is complete!**
+**Python migration is complete! This repository is feature-complete with the web
+IDE.**
 
 Welcome to the official command-line utility for WebFPGA compatible devices.
 If you are unfamiliar with WebFPGA, please checkout the homepage
