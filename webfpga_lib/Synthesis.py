@@ -3,12 +3,12 @@ import pprint
 import requests
 import asyncio
 import websockets
-from colorama import init
+import colorama
+import termcolor
 from termcolor import colored
 
 # Cross-platform Colorama support
-init()
-print(colored('Colorama support', 'red'))
+colorama.init()
 
 BACKEND_URL = "https://backend.webfpga.io/v1/api"
 WSS_URL     = "wss://backend.webfpga.io/v1/ws"
@@ -32,8 +32,27 @@ async def Synthesize(output_bitstream, input_verilog, no_cache):
         await ws.send(json.dumps(payload))
 
         while True:
-            msg = await ws.recv()
-            print_ws_msg(msg)
+            # Block websocket until we receive a message
+            raw_msg = await ws.recv()
+            data = json.loads(raw_msg)
+
+            # Confirm subscription registration
+            if (data["type"] == "subscribe"):
+                if data["success"]:
+                    print("Subscription success!\n")
+                else:
+                    raise Exception("Failed to subscribe to synthesis log stream")
+
+            # not a message, just print the json response
+            if not "msg" in data:
+                print(data)
+                continue
+
+            # print the message and break when synthesis is complete
+            print_ws_msg(data)
+            for msg in data["msg"]:
+                if "synthesis complete" in msg:
+                    return
 
 # Raise error if we are unable to ascertain a positive status
 # from the backend server
@@ -63,15 +82,16 @@ def request_synthesis(input_verilog, no_cache):
     return res.json()
 
 # Print a websocket synthesis-log message
-def print_ws_msg(raw_msg):
-    data = json.loads(raw_msg)
-    if (data["type"] != "synthesis-log"):
-        return
-
+def print_ws_msg(data):
     for msg in data["msg"]:
         if msg.startswith("#*"):
             fields = msg.split(" ")
             color  = fields[0][2:]
+            # Colorama+Termcolors doens't support 256 colors
+            # We could use a different library (e.g. Colored), but
+            # then we would lose Windows support
+            if not color in termcolor.COLORS:
+                color = "yellow"
             print(colored(" ".join(fields[1:]), color))
         else:
             print(msg)
