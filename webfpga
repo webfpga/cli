@@ -7,7 +7,7 @@ from webfpga_lib.Synthesis import Synthesize
 
 @click.group()
 def cli():
-    print("WebFPGA CLI v0.2\n")
+    print("WebFPGA CLI v0.3\n")
 
 # Synthesize
 @cli.command()

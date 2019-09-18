@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='webfpga',  
-    version='0.2',
+    version='0.3',
     scripts=['webfpga'] ,
     author="WebFPGA",
     author_email="support@webfpga.io",
