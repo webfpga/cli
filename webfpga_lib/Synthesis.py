@@ -1,18 +1,22 @@
 import json
+import pprint
 import requests
+import asyncio
 
 BACKEND_URL = "https://backend.webfpga.io/v1/api"
 
-def Synthesize(output_bitstream, input_verilog, no_cache):
+async def Synthesize(output_bitstream, input_verilog, no_cache):
+    # Ensure that the backend is online
     print("Connecting to remote synthesis engine...")
     assert_connection()
 
+    # Submit synthesis job to the backend
     print(f"Attempting synthesis (saving to {output_bitstream.name})...")
     for f in input_verilog:
         print("  -", f.name)
-    print("")
-
     res = request_synthesis(input_verilog, no_cache)
+
+    # 
 
 # Raise error if we are unable to ascertain a positive status
 # from the backend server
@@ -29,13 +33,14 @@ def request_synthesis(input_verilog, no_cache):
     for f in input_verilog:
         body = f.read()
         files.append({"name": f.name, "body": body})
-    print(files)
+    #print(files)
 
     headers = {"X-WEBFPGA-CACHE": ("false" if no_cache else "true")}
-    print("request headers", headers)
+    #print("request headers", headers)
 
     payload = json.dumps({"files": files})
     url = BACKEND_URL + "/synthesize"
     res = requests.post(url, data=payload, headers=headers)
+    pprint.pprint(res.json())
 
-    print(res.json())
+    return res.json
