@@ -79,12 +79,11 @@ AMWD: 0  3e  0  3e
 RESPONSE => 62 
 ```
 
-## IceStorm Example
-If you would like to produce your logic with Yosys, IceStorm, and friends
+## IceStorm Example.
+If you would like to produce logic with Yosys, IceStorm, and friends
 &mdash; then please check out
 [webfpga_icestorm_examples](https://github.com/webfpga/webfpga_icestorm_examples).
-Once you have produced your bitstream, you can simply run `webfpga flash
-bitstream.bin`.
+Once you have produced a bitstream, simply run `webfpga flash bitstream.bin`.
 
 ## What is a compressed bitstream?
 
