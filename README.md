@@ -32,6 +32,8 @@ synthesize one or more Verilog source files to produce a bitstream.
 Then, feed that bitstream into `webfpga flash` to load the binary
 onto your local device. E.g.
 `webfpga synth input.v -o bitstream.bin && webfpga flash bitstream.bin`.
+By default, `webfpga synth` will save the bitstream as `bitstream.bin`, but
+you can use `-o` to specify a different filename.
 
 ```console
 $ curl -O https://beta.webfpga.io/static/WF_blinky.v
