@@ -34,33 +34,27 @@ def get_first_device():
     print_devices(devices)
     return devices[0]
 
-def Flash(x):
-    print("Opening USB device...")
-    dev = get_first_device()
+# Issue a command to the USB device
+def issue_command(device, command, data):
+    code = COMMANDS[command]
+    bytes_written = device.ctrl_transfer(0x40, 250, commandcode, 0, data)
+    print(command + ": ", end="")
+    return bytes_written
 
-#   def issue(self, command, data):
-#       commandcode = self.commandmap[command]
-#       written = self.dev.ctrl_transfer(0x40, 250, commandcode, 0, data)
-#       if self.monitor:
-#           print(command + ": ", end="");
-#       return written
+def expect(device, expected):        
+    ret = device.ctrl_transfer(0xC0, 249, 0x70, 0x81, 128)
+    result = "".join([chr(x) for x in ret]).rstrip(" \t\r\n\0")
+    match = re.match(expected, result)
 
-#   def expect(self, expected):        
-#       ret = self.dev.ctrl_transfer(0xC0, 249, 0x70, 0x81, 128)
-#           result = "".join([chr(x) for x in ret]).rstrip(" \t\r\n\0")
-#           match = re.match(expected, result)
-#           if match:
-#               if self.monitor:
-#                   print(result)
-#                   return result.strip("\00\0A")
-#           else:
-#               if self.monitor:
-#                   print(result + "(wanted " + expected + ")")
-#                   assert(0)
+    if match:
+        print(result)
+        return result.strip("\00\0A")
+    else:
+        print(result + "(wanted " + expected + ")")
 
-#   def handshake(self, command, expected):
-#       self.issue(command, None)
-#           return self.expect(expected)
+def handshake(command, expected):
+    issue_command(command, None)
+    return expect(expected)
 
 #   def prepare(self):
 #       self.handshake("AT", "Hi")
@@ -119,3 +113,7 @@ def Flash(x):
 #                   #self.progress.advance(offset)
 #           #self.progress.advance(None)
 #           print("Flashing complete")
+
+def Flash(x):
+    print("Opening USB device...")
+    dev = get_first_device()
