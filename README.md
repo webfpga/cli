@@ -1,24 +1,35 @@
 # webfpga/cli
+[![PyPI version](https://badge.fury.io/py/webfpga.svg)](https://badge.fury.io/py/webfpga)
 
-Python port of the WebFPGA CLI. As of right now, only bitstream
-flashing is supported.
+Welcome to the official command-line utility for WebFPGA compatible devices.
+If you are unfamiliar with WebFPGA, please checkout the homepage
+([webfpa.io](https://webfpga.io)) or our Kickstarter page
+([webfpga.io/kickstarter](https://webfpga.io/kickstarter)).
 
-## Update
-Bitstream downloading and compression is nearly supported! (9/8/2019)
+This utility provides access to the official backend for Verilog synthesis.
+It also provides flashing capability for the official WebFPGA family of
+boards ([store.webfpga.io](https://store.webfpga.io)). You are free to use
+bitstreams sourced from our tools, Lattice's iCECube, or IceStorm. They
+will all work.
 
-## Example
-Use the Node.js utility to synthesize and create a bitstream. Then, use the
-Python utility to flash the device.
+## Installation
 ```console
-# Install the old Node.js utility to synthesize the HDL
-$ npm install -g webfpga-cli
-$ webfpga synth blinky.v
-$ ls
-bitstream.bin
-
-# Fetch the new Python utility to flash your device
-$ git clone https://github.com/webfpga/cli
-$ cp cli/flash.py .
-$ pip install pyusb
-$ python flash.py bitstream.bin
+$ pip install webfpga
 ```
+
+## What is a compressed bitstream?
+
+FPGA bitstreams are typically full of contagious zeroes. Therefore,
+compression on the host and decompression in the device's firmware
+makes perfect sense. Flashing speeds are about 20x faster when using
+compressed bitstreams.
+
+Right now, the device's firmware expects compressed bitstreams. WebFPGA
+doesn't support uncompressed, raw bitstreams (such as ones outputted
+from iCECube/IceStorm tools.) These compressed bitstreams are blocked
+into sub-64-byte chunks that fit into standard USB control transfer frames.
+
+But don't fret! Our flashing utility automatically detects uncompressed
+bitstreams and transparently compresses them before transferring them.
+Bitstreams that originate from the official WebFPGA backend come
+pre-compressed.
