@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import click
+from webfpga_lib.Flash     import Flash
 from webfpga_lib.Synthesis import Synthesize
 
 @click.group()
@@ -20,6 +21,6 @@ def synth(output, input_verilog):
 @click.argument("bitstream", required=True, type=click.File("rb"))
 def flash(bitstream):
     """Flash the first connected WebFPGA device"""
-    click.echo("Flashing bitstream")
+    Flash(bitstream)
 
 cli()
