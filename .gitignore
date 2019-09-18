@@ -110,3 +110,6 @@ venv.bak/
 # FPGA bitstreams
 *.bin
 *.cbin
+
+# Verilog source
+*.v
