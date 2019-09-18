@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from webfpga_lib.Compress import compress
+from webfpga.Compress import compress
 
 import usb.core
 import usb.util
