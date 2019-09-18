@@ -3,7 +3,12 @@ import pprint
 import requests
 import asyncio
 import websockets
-from colorama import Fore, Back, Style
+from colorama import init
+from termcolor import colored
+
+# Cross-platform Colorama support
+init()
+print(colored('Colorama support', 'red'))
 
 BACKEND_URL = "https://backend.webfpga.io/v1/api"
 WSS_URL     = "wss://backend.webfpga.io/v1/ws"
@@ -60,7 +65,6 @@ def request_synthesis(input_verilog, no_cache):
 # Print a websocket synthesis-log message
 def print_ws_msg(raw_msg):
     data = json.loads(raw_msg)
-    pprint.pprint(data)
     if (data["type"] != "synthesis-log"):
         return
 
