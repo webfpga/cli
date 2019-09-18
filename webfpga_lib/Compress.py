@@ -68,7 +68,6 @@ def compress(input_bytes):
     rec_buffer      = []
     compress_buffer = []
 
-
     rec_buffer.append(127)  # placeholder for length
 
     if data_segment[index] != 0:   # start zero flag with correct value
