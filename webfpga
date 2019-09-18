@@ -10,12 +10,12 @@ def cli():
 
 @cli.command()
 def synth():
-    """Synthesize"""
+    """Synthesize one or more input Verilog files and save the bitstream"""
     click.echo('Synth')
 
 @cli.command()
 def flash():
-    """Flash Device"""
+    """Flash the first connected WebFPGA device"""
     click.echo('Flash')
 
 cli()
