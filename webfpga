@@ -25,6 +25,6 @@ def synth(output, input_verilog, no_cache):
 @click.argument("bitstream", required=True, type=click.File("rb"))
 def flash(bitstream):
     """Flash the first connected WebFPGA device"""
-    Flash(bitstream)
+    Flash(bitstream.read())
 
 cli()

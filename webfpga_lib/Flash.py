@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import webfpga_lib.Compress
+from webfpga_lib.Compress import compress
 
 import usb.core
 import usb.util
@@ -27,7 +27,7 @@ def Flash(bitstream):
     erase(dev)
 
     print("\nFlashing device...")
-    flash(dev, bitstream)
+    flash(dev, compress(bitstream))
 
 # Grab the first available WebFPGA device
 def get_device():
@@ -83,9 +83,14 @@ def erase(device):
     assert amq[6] == "H", "Flash device has bad Cascadia header."
     assert amq[8] == "E", "Flash device is not erased."
 
-def flash(device, f):
+def flash(device, buf):
     handshake(device, "AMW", "OK")
     offset = 0;
+
+    with open("/tmp/bin", "wb") as f:
+        f.write(buf)
+
+    f = open("/tmp/bin", "rb")
 
     while True:
         header = f.read(1)
@@ -112,3 +117,5 @@ def flash(device, f):
 
         # print the device's response
         print("RESPONSE =>", res, "\n");
+
+    f.close()

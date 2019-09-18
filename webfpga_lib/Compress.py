@@ -1,27 +1,24 @@
 #!/usr/bin/env python3
 
 import sys
+import datetime
 from sys import argv
 
-def Compress():
-    input_filename  = "seg.hbin"
-    output_filename = "output.cbin"
+# Returns true if the binary bitstream is already
+# in the compressed format. If the binary buffer starts
+# with 0xFF00, then it's definitely uncompressed.
+def is_compressed(input_bytes):
+    return (input_bytes[0] != 0xFF and input_bytes[1] != 0x00)
 
-    decompress_filename = "decompressed.bin"
-    deblock_filename = "deblock.bin"
-    blocks_filename = "blocks.bin"
-
-    # Print banner
-    print("----------------------------------------")
-    print("WebFPGA Bitstream Compression Utility\n")
-    print("Input: ",  input_filename)
-    print("Output:", output_filename)
-    print("----------------------------------------\n")
+# Compresses the input bitstream if it isn't compressed already
+# (If it's already compressed, it just returns the same bytes.)
+def compress(input_bytes):
+    if is_compressed(input_bytes):
+        return input_bytes
 
     # Open input file and load into array
     print("Reading input bitstream...")
-    f = open(input_filename, "rb")
-    bitstream = bytearray(f.read())
+    bitstream = input_bytes
     print(f"Read {len(bitstream)} bytes.\n")
 
     # (0xFF signifies the start/end of the header)
@@ -29,7 +26,6 @@ def Compress():
     data_segment = [0xFF, 0x00 ] 
     data_segment.extend("E+".encode('utf-8'))
 
-    import datetime
     x = datetime.datetime.now()
     print (f"date: {x}")
 
@@ -137,13 +133,10 @@ def Compress():
 
     print("Compress G: Compressed file len: %6d, compression ratio %2.1f:1" % (len(compress_buffer),1/(len(compress_buffer)/len(bitstream))))
 
-    print(f"Saving compressed bitstream ({output_filename})...\n")
-    with open(output_filename, "wb") as f:
-        f.write(bytes(compress_buffer))
+    print(f"Returning compressed bitstream...");
+    return bytes(compress_buffer)
 
-    #######################################################################
-    # decompress
-    #
+def decompress(compress_buffer):
     decompress_buffer = []
     index      = 0
     rec_number = 0
@@ -170,9 +163,7 @@ def Compress():
     print(f"Decompress B: number of records decompressed {rec_number} length {len(decompress_buffer)}.")
     #print (f"decompressed: {decompress_buffer} \n")
 
-    print(f"Saving decompressed bitstream ({decompress_filename})...\n")
-    with open(decompress_filename, "wb") as f:
-        f.write(bytes(decompress_buffer))
+    return bytes(decompress_buffer)
 
     #######################################################################
     # blocking
@@ -254,9 +245,8 @@ def Compress():
     print(f"Blocks: Blocks {block_number+1}, records {record_number}.")
     #print (f"blocking: {blocks_buffer} \n")
 
-    print(f"Saving blocks bitstream ({blocks_filename})...\n")
-    with open(blocks_filename, "wb") as f:
-        f.write(bytes(blocks_buffer))
+    print(f"Returning blocks bitstream\n")
+    return bytes(blocks_buffer)
     #######################################################################
     # de-blocking with decompression
     #
@@ -298,6 +288,5 @@ def Compress():
     print(f"De-blocking: records {record_number}, file length {len(deblock_buffer)}.")
     #print (f"De-blocking: {deblock_buffer} \n")
 
-    print(f"Saving deblocked bitstream ({deblock_filename})...")
-    with open(deblock_filename, "wb") as f:
-        f.write(bytes(deblock_buffer))
+    print(f"Returning deblocked bitstream")
+    return bytes(deblock_buffer)
