@@ -1,4 +1,5 @@
 import json
+import base64
 import pprint
 import requests
 import asyncio
@@ -23,9 +24,18 @@ async def Synthesize(output_bitstream, input_verilog, no_cache):
     for f in input_verilog:
         print("  -", f.name)
     res = request_synthesis(input_verilog, no_cache)
+    id = res["id"]
+    print("")
+
+    # Check if the cached result already exists
+    if res["cached"]:
+        print("Cached bitstream already exists!")
+        bitstream = download_bitstream(id)
+        if bitstream["ready"]:
+            save_bitstream(bitstream, output_bitstream)
+        return
 
     # Follow synthesis log
-    id = res["id"]
     print(f"\nSubscribing to synthesis log (id={id})...")
     async with websockets.connect(WSS_URL) as ws:
         payload = {"type": "subscribe", "id": id}
@@ -95,3 +105,13 @@ def print_ws_msg(data):
             print(colored(" ".join(fields[1:]), color))
         else:
             print(msg)
+
+def download_bitstream(id):
+    res = requests.get(BACKEND_URL + "/bitstream/" + id).json()
+    print(res)
+    return res
+
+def save_bitstream(bitstream, output_file):
+    print("Saving bitstream...")
+    b = base64.b64decode(bitstream["bitstream"])
+    output_file.write(b)
