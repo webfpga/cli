@@ -26,7 +26,53 @@ Commands:
   synth  Synthesize one or more input Verilog files and save the bitstream
 ```
 
-## 
+## Example
+The utility is fairly simply to use once installed. Simply
+synthesize one or more Verilog source files to produce a bitstream.
+Then, feed that bitstream into `webfpga flash` to load the binary
+onto your local device. E.g.
+`webfpga synth input.v -o bitstream.bin && webfpga flash bitstream.bin`.
+
+```console
+$ curl -O https://beta.webfpga.io/static/WF_blinky.v
+$ webfpga synth WF_blinky.v
+WebFPGA CLI v0.3
+
+Connecting to remote synthesis engine...
+200 {"status":"ok"} 
+
+Attempting synthesis (saving to bitstream.bin)...
+  - WF_blinky.v
+
+... verbose output omitted ...
+
+purging build directory...
+synthesis complete!
+
+$ webfpga flash bitstream.bin
+ryan@mu2 ~/cli $ ./webfpga flash bitstream.bin 
+WebFPGA CLI v0.3
+
+Opening USB device...
+
+Preparing device for flashing...
+AT: Hi
+API: C_WEBUSB+
+APR: 000921
+Found programmer.
+Checking for FPGA module and its flash configuration...
+APWE: wren
+AMQ: SA016WHEe
+
+Erasing device...
+AMBE: DONE
+AMQ: SA016WHEE
+
+Flashing device...
+AMW: OK
+AMWD: 0  3e  0  3e
+RESPONSE => 62 
+```
 
 ## What is a compressed bitstream?
 
