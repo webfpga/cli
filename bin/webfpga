@@ -7,7 +7,11 @@ from webfpga.Flash     import Flash
 from webfpga.Synthesis import Synthesize
 
 @click.group()
-def cli():
+@click.version_option(
+        version=VERSION, prog_name="webfpga",
+        message="%(prog)s, version %(version)s\n" +
+        "Copyright (C) Auburn Ventures, LLC. MIT License.")
+def cli(version):
     print(f"WebFPGA CLI v{VERSION}\n")
 
 # Synthesize
