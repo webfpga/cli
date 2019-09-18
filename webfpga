@@ -8,14 +8,17 @@ import lib.Flash
 def cli():
     print("WebFPGA CLI v0.1")
 
+# Synthesize
 @cli.command()
+@click.option("-o/--output", default="output.cbin", help="Compressed bitstream filename")
 def synth():
     """Synthesize one or more input Verilog files and save the bitstream"""
-    click.echo('Synth')
+    click.echo("Synth")
 
+# Flash
 @cli.command()
 def flash():
     """Flash the first connected WebFPGA device"""
-    click.echo('Flash')
+    click.echo("Flash")
 
 cli()
