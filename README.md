@@ -10,7 +10,7 @@ This utility provides access to the official backend for Verilog synthesis.
 It also provides flashing capability for the official WebFPGA family of
 boards ([store.webfpga.io](https://store.webfpga.io)). You are free to use
 bitstreams sourced from our tools, Lattice's iCECube, or IceStorm. They
-will all work.
+should all work.
 
 ## Installation
 ```console
