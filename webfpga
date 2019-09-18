@@ -11,7 +11,7 @@ def cli():
 
 # Synthesize
 @cli.command()
-@click.option("-o", "--output",   default="output.bin", help="Bitstream filename", type=click.File("wb"))
+@click.option("-o", "--output", default="bitstream.bin", help="Bitstream filename", type=click.File("wb"))
 @click.option("--no-cache", is_flag=True, help="Disable bitstream caching")
 @click.argument("input_verilog", nargs=-1, required=True, type=click.File("r"))
 def synth(output, input_verilog, no_cache):
