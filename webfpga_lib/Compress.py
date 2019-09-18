@@ -51,7 +51,6 @@ def compress(input_bytes):
     print(f"Found data segment start at byte {index}.\n");
     data_segment.extend(bitstream[index:])
 
-
     #######################################################################
     # compress
     #
