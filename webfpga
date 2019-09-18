@@ -10,10 +10,11 @@ def cli():
 
 # Synthesize
 @cli.command()
-@click.option("-o/--output", default="output.cbin", help="Compressed bitstream filename")
-def synth():
+@click.option("-o", "--output", default="output.cbin", help="Compressed bitstream filename")
+@click.argument("input_verilog", nargs=-1, required=True)
+def synth(output, input_verilog):
     """Synthesize one or more input Verilog files and save the bitstream"""
-    click.echo("Synth")
+    print("Synth", output, input_verilog)
 
 # Flash
 @cli.command()
