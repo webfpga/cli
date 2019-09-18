@@ -79,6 +79,13 @@ AMWD: 0  3e  0  3e
 RESPONSE => 62 
 ```
 
+## IceStorm Example
+If you would like to produce your logic with Yosys, IceStorm, and friends,
+please check out
+[https://github.com/webfpga/webfpga_icestorm_examples](webfpga_icestorm_examples).
+Once you have produced your bitstream, you can simply run `webfpga flash
+bitstream.bin`.
+
 ## What is a compressed bitstream?
 
 FPGA bitstreams are typically full of contiguous zeroes. Therefore,
