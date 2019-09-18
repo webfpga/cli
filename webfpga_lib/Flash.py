@@ -85,37 +85,34 @@ def erase(device):
 
 def flash(device, buf):
     handshake(device, "AMW", "OK")
-    offset = 0;
 
-    with open("/tmp/bin", "wb") as f:
-        f.write(buf)
+    n = 0
+    while n < len(buf):
+        header = buf[n]
+        n += 1
 
-    f = open("/tmp/bin", "rb")
+        block_size = header
+        if (block_size & 0x80) != 0:
+            block_size = block_size & 0x7F
 
-    while True:
-        header = f.read(1)
-        if len(header) == 0:
-            break
+        block_bytes = buf[n:n+block_size]
+        n += block_size
 
-        l = header[0]
-        if (l & 0x80) != 0:
-            l = l & 0x7F
-
-        body = f.read(l-1);
-        assert len(body) == l-1, "Short block!"
+        print(block_size, len(block_bytes))
+        assert block_size == len(block_bytes)
+        # if block_size != len(block_bytes):
+            # break
 
         # print each tx block
-        for line in textwrap.wrap(body.hex(), 40):
+        for line in textwrap.wrap(block_bytes.hex(), 40):
             print(line)
 
         # transmit the block
         combined = bytearray(header)
-        combined.extend(body)
+        combined.extend(block_bytes)
         res = issue_command(device, "AMWD", combined)
         expect(device, ".*")
         offset = offset + l
 
         # print the device's response
         print("RESPONSE =>", res, "\n");
-
-    f.close()
