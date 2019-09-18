@@ -80,8 +80,8 @@ RESPONSE => 62
 ```
 
 ## IceStorm Example
-If you would like to produce your logic with Yosys, IceStorm, and friends,
-please check out
+If you would like to produce your logic with Yosys, IceStorm, and friends
+&mdash; then please check out
 [https://github.com/webfpga/webfpga_icestorm_examples](webfpga_icestorm_examples).
 Once you have produced your bitstream, you can simply run `webfpga flash
 bitstream.bin`.
