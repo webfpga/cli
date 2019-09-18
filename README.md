@@ -86,7 +86,6 @@ If you would like to produce logic with Yosys, IceStorm, and friends
 Once you have produced a bitstream, simply run `webfpga flash bitstream.bin`.
 
 ## What is a compressed bitstream?
-
 FPGA bitstreams are typically full of contiguous zeroes. Therefore,
 compression on the host and decompression in the device's firmware
 makes perfect sense. Flashing speeds are about 20x faster when using
@@ -101,3 +100,8 @@ But don't fret! Our flashing utility automatically detects uncompressed
 bitstreams and transparently compresses them before transferring them.
 Bitstreams that originate from the official WebFPGA backend arrive
 pre-compressed.
+
+## Development
+Soon, `webfpga compress-bitstream` will be exposed as a command-line utility,
+allowing users to compress bitstreams, store them, and flash them. WebFPGA
+uses a variant of `compress-bitstream` on the official backend.
