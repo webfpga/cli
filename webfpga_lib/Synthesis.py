@@ -33,7 +33,7 @@ async def Synthesize(output_bitstream, input_verilog, no_cache):
         bitstream = download_bitstream(id)
         if bitstream["ready"]:
             save_bitstream(bitstream, output_bitstream)
-        return
+            return
 
     # Follow synthesis log
     print(f"\nSubscribing to synthesis log (id={id})...")
@@ -62,6 +62,9 @@ async def Synthesize(output_bitstream, input_verilog, no_cache):
             print_ws_msg(data)
             for msg in data["msg"]:
                 if "synthesis complete" in msg:
+                    print("Synthesis complete! Downloading bitstream...")
+                    bitstream = download_bitstream(id)
+                    save_bitstream(bitstream, output_bitstream)
                     return
 
 # Raise error if we are unable to ascertain a positive status
