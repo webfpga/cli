@@ -2,9 +2,9 @@
 
 import click
 import asyncio
-from webfpga_lib.Constants import VERSION
-from webfpga_lib.Flash     import Flash
-from webfpga_lib.Synthesis import Synthesize
+from webfpga.Constants import VERSION
+from webfpga.Flash     import Flash
+from webfpga.Synthesis import Synthesize
 
 @click.group()
 def cli():

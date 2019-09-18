@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="webfpga",  
     version=webfpga.VERSION,
-    scripts=["webfpga"] ,
+    scripts=["bin/webfpga"] ,
     author="WebFPGA",
     author_email="support@webfpga.io",
     description="Official WebFPGA Command-line Utility",
