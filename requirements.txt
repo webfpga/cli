@@ -1,2 +1,4 @@
 pyusb
 click
+requests
+websockets
