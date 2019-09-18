@@ -1,5 +1,21 @@
 #!/usr/bin/env python3
+
+import click
 import lib.Synthesis
 import lib.Flash
 
-print("__init__.py call")
+@click.group()
+def cli():
+    print("WebFPGA CLI v0.1")
+
+@cli.command()
+def synth():
+    """Synthesize"""
+    click.echo('Synth')
+
+@cli.command()
+def flash():
+    """Flash Device"""
+    click.echo('Flash')
+
+cli()
