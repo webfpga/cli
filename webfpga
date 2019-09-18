@@ -2,12 +2,13 @@
 
 import click
 import asyncio
+import webfpga_lib.Constants
 from webfpga_lib.Flash     import Flash
 from webfpga_lib.Synthesis import Synthesize
 
 @click.group()
 def cli():
-    print("WebFPGA CLI v0.3\n")
+    print(f"WebFPGA CLI v{VERSION}\n")
 
 # Synthesize
 @cli.command()

@@ -15,7 +15,10 @@ will all work.
 ## Installation
 ```console
 $ pip install webfpga
+$ webfpga
 ```
+
+## 
 
 ## What is a compressed bitstream?
 
@@ -31,5 +34,5 @@ into sub-64-byte chunks that fit into standard USB control transfer frames.
 
 But don't fret! Our flashing utility automatically detects uncompressed
 bitstreams and transparently compresses them before transferring them.
-Bitstreams that originate from the official WebFPGA backend come
+Bitstreams that originate from the official WebFPGA backend arrive
 pre-compressed.
