@@ -37,7 +37,7 @@ compressed bitstreams.
 
 Right now, the device's firmware expects compressed bitstreams. WebFPGA
 doesn't support uncompressed, raw bitstreams (such as ones outputted
-from iCECube/IceStorm tools.) These compressed bitstreams are blocked
+from iCECube/IceStorm tools.) These compressed bitstreams are chunked
 into sub-64-byte chunks that fit into standard USB control transfer frames.
 
 But don't fret! Our flashing utility automatically detects uncompressed
