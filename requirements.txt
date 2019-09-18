@@ -1,6 +1,0 @@
-pyusb
-click
-requests
-websockets
-colorama
-termcolor
