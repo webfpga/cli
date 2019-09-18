@@ -30,7 +30,7 @@ Commands:
 
 ## What is a compressed bitstream?
 
-FPGA bitstreams are typically full of contagious zeroes. Therefore,
+FPGA bitstreams are typically full of contiguous zeroes. Therefore,
 compression on the host and decompression in the device's firmware
 makes perfect sense. Flashing speeds are about 20x faster when using
 compressed bitstreams.
