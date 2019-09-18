@@ -3,7 +3,7 @@
 
 Welcome to the official command-line utility for WebFPGA compatible devices.
 If you are unfamiliar with WebFPGA, please checkout the homepage
-([webfpga.io](https://webfpga.io)) or our Kickstarter page
+([webfpga.io](https://webfpga.io)) or our Kickstarter
 ([webfpga.io/kickstarter](https://webfpga.io/kickstarter)).
 
 This utility provides access to the official backend for Verilog synthesis.
