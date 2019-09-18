@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import webfpga_lib.Constants as webfpga
+import webfpga.Constants as webfpga
 import setuptools
 
 with open("README.md", "r") as fh:
