@@ -2,7 +2,7 @@
 
 import click
 import asyncio
-from webfpga.Constants import VERSION
+from webfpga           import VERSION
 from webfpga.Flash     import Flash
 from webfpga.Synthesis import Synthesize
 

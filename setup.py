@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import webfpga.Constants as webfpga
+from webfpga import VERSION
 import setuptools
 
 with open("README.md", "r") as fh:
@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="webfpga",  
-    version=webfpga.VERSION,
+    version=VERSION,
     scripts=["bin/webfpga"] ,
     author="WebFPGA",
     author_email="support@webfpga.io",
