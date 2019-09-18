@@ -69,4 +69,9 @@ def print_ws_msg(raw_msg):
         return
 
     for msg in data["msg"]:
-        print(msg)
+        if msg.startswith("#*"):
+            fields = msg.split(" ")
+            color  = fields[0][2:]
+            print(colored(" ".join(fields[1:]), color))
+        else:
+            print(msg)
