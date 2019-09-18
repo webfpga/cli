@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import click
+import asyncio
+from webfpga           import VERSION
+from webfpga.Flash     import Flash
+from webfpga.Synthesis import Synthesize
+
+@click.group()
+@click.version_option(
+        version=VERSION, prog_name="webfpga",
+        message="%(prog)s, version %(version)s\n" +
+        "Copyright (C) Auburn Ventures, LLC. MIT License.")
+def cli(version):
+    print(f"WebFPGA CLI v{VERSION}\n")
+
+# Synthesize
+@cli.command()
+@click.option("-o", "--output", default="bitstream.bin", help="Bitstream filename", type=click.File("wb"))
+@click.option("--no-cache", is_flag=True, help="Disable bitstream caching")
+@click.argument("input_verilog", nargs=-1, required=True, type=click.File("r"))
+def synth(output, input_verilog, no_cache):
+    """Synthesize one or more input Verilog files and save the bitstream"""
+    asyncio.get_event_loop().run_until_complete(
+        Synthesize(input_verilog=input_verilog, output_bitstream=output, no_cache=no_cache)
+    )
+
+# Flash
+@cli.command()
+@click.argument("bitstream", required=True, type=click.File("rb"))
+def flash(bitstream):
+    """Flash the first connected WebFPGA device"""
+    Flash(bitstream.read())
+
+cli()
