@@ -2,8 +2,11 @@ import json
 import pprint
 import requests
 import asyncio
+import websockets
+from colorama import Fore, Back, Style
 
 BACKEND_URL = "https://backend.webfpga.io/v1/api"
+WSS_URL     = "wss://backend.webfpga.io/v1/ws"
 
 async def Synthesize(output_bitstream, input_verilog, no_cache):
     # Ensure that the backend is online
@@ -16,7 +19,16 @@ async def Synthesize(output_bitstream, input_verilog, no_cache):
         print("  -", f.name)
     res = request_synthesis(input_verilog, no_cache)
 
-    # 
+    # Follow synthesis log
+    id = res["id"]
+    print(f"\nSubscribing to synthesis log (id={id})...")
+    async with websockets.connect(WSS_URL) as ws:
+        payload = {"type": "subscribe", "id": id}
+        await ws.send(json.dumps(payload))
+
+        while True:
+            msg = await ws.recv()
+            print_ws_msg(msg)
 
 # Raise error if we are unable to ascertain a positive status
 # from the backend server
@@ -43,4 +55,14 @@ def request_synthesis(input_verilog, no_cache):
     res = requests.post(url, data=payload, headers=headers)
     pprint.pprint(res.json())
 
-    return res.json
+    return res.json()
+
+# Print a websocket synthesis-log message
+def print_ws_msg(raw_msg):
+    data = json.loads(raw_msg)
+    pprint.pprint(data)
+    if (data["type"] != "synthesis-log"):
+        return
+
+    for msg in data["msg"]:
+        print(msg)
