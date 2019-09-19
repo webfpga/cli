@@ -11,7 +11,7 @@ from webfpga.Synthesis import Synthesize
         version=VERSION, prog_name="webfpga",
         message="%(prog)s, version %(version)s\n" +
         "Copyright (C) Auburn Ventures, LLC. MIT License.")
-def cli(version):
+def cli():
     print(f"WebFPGA CLI v{VERSION}\n")
 
 # Synthesize
