@@ -11,8 +11,8 @@ from termcolor import colored
 # Cross-platform Colorama support
 colorama.init()
 
-BACKEND_URL = "https://backend.webfpga.io/v1/api"
-WSS_URL     = "wss://backend.webfpga.io/v1/ws"
+BACKEND_URL = "https://backend.webfpga.com/v1/api"
+WSS_URL     = "wss://backend.webfpga.com/v1/ws"
 
 async def Synthesize(output_bitstream, input_verilog, no_cache):
     # Ensure that the backend is online
