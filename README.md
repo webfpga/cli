@@ -101,7 +101,9 @@ bitstreams and transparently compresses them before transferring them.
 Bitstreams that originate from the official WebFPGA backend arrive
 pre-compressed.
 
-## Development
-Soon, `webfpga compress-bitstream` will be exposed as a command-line utility,
-allowing users to compress bitstreams, store them, and flash them. WebFPGA
-uses a variant of `compress-bitstream` on the official backend.
+### Deploying to PyPI
+```shell
+$ ./setup.py sdist
+$ twine check dist/*
+$ twine upload dist/*
+```
