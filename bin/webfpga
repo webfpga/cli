@@ -5,6 +5,7 @@ import asyncio
 from webfpga           import VERSION
 from webfpga.Flash     import Flash
 from webfpga.Synthesis import Synthesize
+from webfpga.Comms     import Comms
 
 @click.group()
 @click.version_option(
@@ -31,5 +32,15 @@ def synth(output, input_verilog, no_cache):
 def flash(bitstream):
     """Flash the first connected WebFPGA device"""
     Flash(bitstream.read())
+
+# Set CPU wires
+# (External MCU->FPGA one-way communication.)
+@cli.command()
+@click.argument("bit", nargs=-1, required=True)
+def setb(bit, value):
+    """Synthesize one or more input Verilog files and save the bitstream"""
+    asyncio.get_event_loop().run_until_complete(
+        Comms.setb(bit, value)
+    )
 
 cli()
