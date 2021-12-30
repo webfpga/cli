@@ -1,4 +1,5 @@
 import re
+import sys
 import usb.core
 import usb.util
 from time import sleep
@@ -57,12 +58,26 @@ def handshake(device, command, expected, wIndex=0, data=None):
     return expect(device, expected)
 
 # Set a MCU bit to 0 or 1
-def SetBit(bit, value):
+def set_bit(dev, bit, value):
+    # toggle --> offset 0, set 1 --> offset 4, set 0 --> offset 8
+    bit += (4 if (value == 1) else 8)
+    handshake(dev, "AFCIO", "^Done", wIndex=bit)
+
+def SetBitstring(bitstring):
+    # valid bitstring
+    match = re.match("[01][01][01][01]", bitstring)
+    if not match:
+        print(f"error: bitstring is invalid: {bitstring}")
+        print( "       Try something like '0101'")
+        sys.exit(1)
+
+    # open usb device and validate connection
     print("Opening USB device...")
     dev = get_device()
     handshake(dev, "AT", "Hi")
 
-    # toggle --> offset 0, set 1 --> offset 4, set 0 --> offset 8
-    print(f"\nSetting CPU->FPGA; Bit {bit} to {value}...")
-    bit += (4 if (value == 1) else 8)
-    handshake(dev, "AFCIO", "^Done", wIndex=bit)
+    # set bits
+    print("\nSetting bits...")
+    for bit in range(len(bitstring)):
+        val = int(bitstring[bit])
+        set_bit(dev, bit, val)

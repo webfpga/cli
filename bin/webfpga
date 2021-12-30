@@ -5,7 +5,7 @@ import asyncio
 from webfpga           import VERSION
 from webfpga.Flash     import Flash
 from webfpga.Synthesis import Synthesize
-from webfpga.Utilities import SetBit
+from webfpga.Utilities import SetBitstring
 
 @click.group()
 @click.version_option(
@@ -38,10 +38,9 @@ def flash(bitstream):
 # Set CPU wires
 # (External MCU->FPGA one-way communication.)
 @cli.command()
-@click.argument("bit",   required=True, type=click.IntRange(0,3))
-@click.argument("value", required=True, type=click.IntRange(0,1))
-def setb(bit, value):
-    """Set a CPU->FPGA bit to 0 or 1."""
-    SetBit(bit, value)
+@click.argument("bitstring", required=True)
+def setbits(bitstring):
+    """Set the CPU->FPGA bitstring; Valid ranges are 0000 through 1111."""
+    SetBitstring(bitstring)
 
 cli()
