@@ -58,15 +58,20 @@ def handshake(device, command, expected, wIndex=0, data=None):
     return expect(device, expected)
 
 # Set a MCU bit to 0 or 1
+# toggle --> offset 0, set 1 --> offset 4, set 0 --> offset 8
 def set_bit(dev, bit, value):
-    # toggle --> offset 0, set 1 --> offset 4, set 0 --> offset 8
     bit += (4 if (value == 1) else 8)
+    handshake(dev, "AFCIO", "^Done", wIndex=bit)
+
+# Set a MCU bit to 0 or 1
+# toggle --> offset 0, set 1 --> offset 4, set 0 --> offset 8
+def toggle_bit(dev, bit):
     handshake(dev, "AFCIO", "^Done", wIndex=bit)
 
 def SetBitstring(bitstring):
     # valid bitstring
     match = re.match("[01][01][01][01]", bitstring)
-    if not match:
+    if not match and bitstring != "init":
         print(f"error: bitstring is invalid: {bitstring}")
         print( "       Try something like '0101'")
         sys.exit(1)
@@ -76,8 +81,16 @@ def SetBitstring(bitstring):
     dev = get_device()
     handshake(dev, "AT", "Hi")
 
-    # set bits
-    print("\nSetting bits...")
-    for bit in range(len(bitstring)):
-        val = int(bitstring[bit])
-        set_bit(dev, bit, val)
+    if bitstring == "init":
+        # Set all bits zero
+        # This is required because of a firmware bug on the MCU.
+        # The GPIO port direction is not set until we issue the toggle command.
+        for bit in range(4):
+            toggle_bit(dev, bit)
+            set_bit(dev, bit, 0)
+    else:
+        # Set bits from bitstring
+        print("\nSetting bits...")
+        for bit in range(len(bitstring)):
+            val = int(bitstring[bit])
+            set_bit(dev, bit, val)

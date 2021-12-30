@@ -40,7 +40,31 @@ def flash(bitstream):
 @cli.command()
 @click.argument("bitstring", required=True)
 def setbits(bitstring):
-    """Set the CPU->FPGA bitstring; Valid ranges are 0000 through 1111."""
+    """Set the CPU->FPGA communication bits.
+
+    ---
+
+    BITSTRING can be a 4-character string of '0', '1', or 'X'.
+    BITSTRING can also be 'init'.
+
+    If the device has just powered on, you need to run `webfpga setbits init`.
+
+    ---
+
+    Examples:
+
+      webfpga setbits init    # Initialize CPU->FPGA communication.
+
+      webfpga setbits 0000    # Set all bits to 0.
+
+      webfpga setbits 0011    # Set the first two bits to 0, last two bits to 1.
+
+      webfpga setbits 1XXX    # Set first bit to 1.
+
+      webfpga setbits X000    # Set last three bits to 0.
+
+    ---
+    """
     SetBitstring(bitstring)
 
 cli()
