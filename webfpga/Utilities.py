@@ -23,14 +23,14 @@ def get_device():
     return device
 
 # Issue a command to the USB device
-def issue_command(device, command, wIndex=0):
+def issue_command(device, command, wIndex=0, data=None):
     # Assemble USB xfer out
     bmRequestType = BM_REQUEST_TYPES["vendor"]
     bmRequest = 250 # user-defined by our firmware
     wValue = COMMANDS[command]
 
     # Run request
-    bytes_written = device.ctrl_transfer(bmRequestType, bmRequest, wValue, wIndex)
+    bytes_written = device.ctrl_transfer(bmRequestType, bmRequest, wValue, wIndex, data)
 
     print(command + ": ", end="")
     return bytes_written
@@ -52,18 +52,17 @@ def expect(device, expected):
     else:
         print(result + "(wanted " + expected + ")")
 
-def handshake(device, command, expected, wIndex=0):
-    issue_command(device, command, wIndex)
+def handshake(device, command, expected, wIndex=0, data=None):
+    issue_command(device, command, wIndex, data)
     return expect(device, expected)
 
 # Set a MCU bit to 0 or 1
 def SetBit(bit, value):
     print("Opening USB device...")
     dev = get_device()
-
-    print("Testing connection...")
     handshake(dev, "AT", "Hi")
 
-    print("Setting bit...")
-    bit += 4
+    # toggle --> offset 0, set 1 --> offset 4, set 0 --> offset 8
+    print(f"\nSetting CPU->FPGA; Bit {bit} to {value}...")
+    bit += (4 if (value == 1) else 8)
     handshake(dev, "AFCIO", "^Done", wIndex=bit)

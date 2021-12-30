@@ -61,7 +61,7 @@ def flash(device, buf):
         idx += block_size
 
         # transmit the block
-        res = issue_command(device, "AMWD", block)
+        res = issue_command(device, "AMWD", wIndex=0, data=block)
         expect(device, ".*")
 
         # print the device's response

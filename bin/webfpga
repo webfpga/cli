@@ -39,7 +39,7 @@ def flash(bitstream):
 @click.argument("bit",   required=True, type=click.IntRange(0,3))
 @click.argument("value", required=True, type=click.IntRange(0,1))
 def setb(bit, value):
-    """Set a CPU-FPGA bit to 0 or 1."""
+    """Set a CPU->FPGA bit to 0 or 1."""
     SetBit(bit, value)
 
 cli()
