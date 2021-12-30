@@ -22,7 +22,9 @@ def cli():
 @click.argument("input_verilog", nargs=-1, required=True, type=click.File("r"))
 def synth(output, input_verilog, no_cache):
     """Synthesize one or more input Verilog files and save the bitstream"""
-    asyncio.get_event_loop().run_until_complete(
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(
         Synthesize(input_verilog=input_verilog, output_bitstream=output, no_cache=no_cache)
     )
 
