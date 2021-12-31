@@ -69,6 +69,8 @@ def toggle_bit(dev, bit):
     handshake(dev, "AFCIO", "^Done", wIndex=bit)
 
 def SetBitstring(bitstring):
+    bitstring = bitstring.lower()
+
     # valid bitstring
     match = re.match("[01x][01x][01x][01x]", bitstring)
     if not match and bitstring != "init":
