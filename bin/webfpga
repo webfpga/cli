@@ -40,7 +40,7 @@ def flash(bitstream):
 @cli.command()
 @click.argument("bitstring", required=True)
 def setbits(bitstring):
-    """Set the CPU->FPGA communication bits.
+    """Set the CPU->FPGA communication bits
 
     ---
 
