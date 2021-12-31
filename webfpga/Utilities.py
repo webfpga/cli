@@ -68,6 +68,14 @@ def set_bit(dev, bit, value):
 def toggle_bit(dev, bit):
     handshake(dev, "AFCIO", "^Done", wIndex=bit)
 
+# Set all bits zero
+# This is required because of a firmware bug on the MCU.
+# The GPIO port direction is not set until we issue the toggle command.
+def init_bits(dev):
+    for bit in range(4):
+        toggle_bit(dev, bit)
+        set_bit(dev, bit, 0)
+
 def SetBitstring(bitstring):
     bitstring = bitstring.lower()
 
@@ -84,12 +92,7 @@ def SetBitstring(bitstring):
     handshake(dev, "AT", "Hi")
 
     if bitstring == "init":
-        # Set all bits zero
-        # This is required because of a firmware bug on the MCU.
-        # The GPIO port direction is not set until we issue the toggle command.
-        for bit in range(4):
-            toggle_bit(dev, bit)
-            set_bit(dev, bit, 0)
+        init_bits(dev)
     else:
         # Set bits from bitstring
         print("\nSetting bits...")
