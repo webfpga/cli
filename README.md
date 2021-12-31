@@ -18,15 +18,18 @@ should all work.
 ## Installation
 ```console
 $ pip install webfpga
+
 $ webfpga --help
 Usage: webfpga [OPTIONS] COMMAND [ARGS]...
 
 Options:
-  --help  Show this message and exit.
+  --version  Show the version and exit.
+  --help     Show this message and exit.
 
 Commands:
-  flash  Flash the first connected WebFPGA device
-  synth  Synthesize one or more input Verilog files and save the bitstream
+  flash    Flash the first connected WebFPGA device
+  setbits  Set the CPU->FPGA communication bits
+  synth    Synthesize one or more input Verilog files and save the bitstream
 ```
 
 ## Example
