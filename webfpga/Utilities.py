@@ -70,7 +70,7 @@ def toggle_bit(dev, bit):
 
 def SetBitstring(bitstring):
     # valid bitstring
-    match = re.match("[01][01][01][01]", bitstring)
+    match = re.match("[01x][01x][01x][01x]", bitstring)
     if not match and bitstring != "init":
         print(f"error: bitstring is invalid: {bitstring}")
         print( "       Try something like '0101'")
@@ -92,5 +92,7 @@ def SetBitstring(bitstring):
         # Set bits from bitstring
         print("\nSetting bits...")
         for bit in range(len(bitstring)):
-            val = int(bitstring[bit])
-            set_bit(dev, bit, val)
+            char = bitstring[bit]
+            if char == "x":
+                continue
+            set_bit(dev, bit, int(char))
